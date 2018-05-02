@@ -24,6 +24,12 @@ class Rental {
     }
     return thisAmount;
   }
+
+  getFrequentRenterPoints() {
+    const { movie, daysRented } = this;
+    if (movie.priceCode === Movie.NEW_RELEASE && daysRented > 1) return 2;
+    else return 1;
+  }
 }
 
 export default Rental;

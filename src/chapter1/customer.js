@@ -19,9 +19,7 @@ class Customer {
       const rental = this.rentals[i];
       const { movie, daysRented } = rental;
 
-      frequentRenterPoints++;
-
-      if (movie.priceCode === Movie.NEW_RELEASE && daysRented > 1) frequentRenterPoints++;
+      frequentRenterPoints += rental.getFrequentRenterPoints();
 
       result += `\t${movie.title}\t${rental.getCharge()}\n`;
       totalAmount += rental.getCharge()
