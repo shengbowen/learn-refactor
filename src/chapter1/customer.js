@@ -17,7 +17,7 @@ class Customer {
     let result = `Rental Recored for ${this.name}\n`;
     for (let i = 0, len = this.rentals.length; i < len; i++) {
       const { movie, daysRented } = this.rentals[i]
-      let thisAmount = this.amountFor(this.rentals[i]);
+      let thisAmount = this.rentals[i].getCharge();
 
       frequentRenterPoints++;
 
@@ -31,10 +31,6 @@ class Customer {
     result += `You earned ${frequentRenterPoints} frequent renter points`;
     // console.log(result);
     return result;
-  }
-
-  amountFor(rental) {
-    return rental.getCharge();
   }
 }
 
