@@ -17,7 +17,7 @@ class Customer {
     let result = `Rental Recored for ${this.name}\n`;
     for (let i = 0, len = this.rentals.length; i < len; i++) {
       const { movie, daysRented } = this.rentals[i]
-      let thisAmount = this.amountFor(movie, daysRented);
+      let thisAmount = this.amountFor(this.rentals[i]);
 
       frequentRenterPoints++;
 
@@ -33,22 +33,8 @@ class Customer {
     return result;
   }
 
-  amountFor(movie, daysRented) {
-    let thisAmount = 0;
-    switch(movie.priceCode) {
-      case Movie.REGULAR:
-        thisAmount += 2;
-        if (daysRented > 2) thisAmount += (daysRented - 2) * 1.5;
-        break;
-      case Movie.NEW_RELEASE:
-        thisAmount += daysRented * 3;
-        break;
-      case Movie.CHILDREDN:
-        thisAmount += 1.5;
-        if (daysRented > 3) thisAmount += (daysRented - 3) * 1.5;
-        break;
-    }
-    return thisAmount;
+  amountFor(rental) {
+    return rental.getCharge();
   }
 }
 
