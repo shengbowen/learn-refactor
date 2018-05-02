@@ -23,3 +23,12 @@
 ### 提取'常客积分计算'代码
 积分的计算视影片种类而有不同，不过不像收费规则有那么多变化，可以把积分计算放在Rental类中。再来看局部变量，这里再一次用到了rental，另一个临时变量frequentRenterPoints。本例中它在使用之前已经有了初值，但提炼出来的函数并没有读取该值，所以我们不需要将它当做参数传递进去，只需要把新函数的返回值累加上去即可。
 代码参见[chapter1 1.3 extract method frequentRenterPoints](https://github.com/shengbowen/learn-refactor/commit/d9a21af059e3514a3d36c3c63c329fbc67e8138d)
+
+### replace temp with getTotalCharge and getTotalFrequent..
+这次为了去掉totalAmount、frequentRenterPoints变量，我们引入了2个方法。这次重构带来了2个问题：
+1. 代码量增多了
+2. 原本只需要执行一次的循环，重构后要执行3次，这可能会带来性能问题，也仅仅是可能，如果没有做评测，无法确定循环的执行时间，也无法知道这个循环是否会经常使用以致于影响系统整体性能。但是重构时我们不需要过分担心这个，优化时再考虑。
+代码参见[replace temp with getTotalCharge and getTotalFrequent](https://github.com/shengbowen/learn-refactor/commit/527708dfe2bd7def3d82d68f4f385a7aa3627c9b)
+
+### 添加功能
+经过前面的重构，你会发现Customer类的一些查询接口，可以方便的被复用，这样就可以省去自建循环代码。我们可以很容易的写一个扩展功能，htmlStatement。你可以很清楚的看见二者的区别[chapter1 1.3 add htmlStatement](https://github.com/shengbowen/learn-refactor/commit/46fb565a96ad5a73a03bfb7e9a4a3773969d15c7)
