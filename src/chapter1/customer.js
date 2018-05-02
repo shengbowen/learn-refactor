@@ -16,15 +16,15 @@ class Customer {
     let frequentRenterPoints = 0;
     let result = `Rental Recored for ${this.name}\n`;
     for (let i = 0, len = this.rentals.length; i < len; i++) {
-      const { movie, daysRented } = this.rentals[i]
-      let thisAmount = this.rentals[i].getCharge();
+      const rental = this.rentals[i];
+      const { movie, daysRented } = rental;
 
       frequentRenterPoints++;
 
       if (movie.priceCode === Movie.NEW_RELEASE && daysRented > 1) frequentRenterPoints++;
 
-      result += `\t${movie.title}\t${thisAmount}\n`;
-      totalAmount += thisAmount
+      result += `\t${movie.title}\t${rental.getCharge()}\n`;
+      totalAmount += rental.getCharge()
     }
 
     result += `Amount owed is ${totalAmount}\n`;
