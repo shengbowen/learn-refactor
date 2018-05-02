@@ -11,9 +11,7 @@ class Rental {
   }
 
   getFrequentRenterPoints() {
-    const { movie, daysRented } = this;
-    if (movie.priceCode === Movie.NEW_RELEASE && daysRented > 1) return 2;
-    else return 1;
+    return this.movie.getFrequentRenterPoints(this.daysRented);
   }
 }
 

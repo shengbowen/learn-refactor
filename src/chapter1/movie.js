@@ -21,6 +21,11 @@ class Movie {
     }
     return thisAmount;
   }
+
+  getFrequentRenterPoints(daysRented) {
+    if (this.priceCode === Movie.NEW_RELEASE && daysRented > 1) return 2;
+    else return 1;
+  }
 }
 
 Movie.CHILDREDN = 2;
