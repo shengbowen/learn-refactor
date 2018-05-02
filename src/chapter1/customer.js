@@ -12,23 +12,27 @@ class Customer {
   }
 
   statement() {
-    let totalAmount = 0;
-    let frequentRenterPoints = 0;
     let result = `Rental Recored for ${this.name}\n`;
     for (let i = 0, len = this.rentals.length; i < len; i++) {
       const rental = this.rentals[i];
       const { movie, daysRented } = rental;
 
-      frequentRenterPoints += rental.getFrequentRenterPoints();
-
       result += `\t${movie.title}\t${rental.getCharge()}\n`;
-      totalAmount += rental.getCharge()
     }
 
-    result += `Amount owed is ${totalAmount}\n`;
-    result += `You earned ${frequentRenterPoints} frequent renter points`;
-    // console.log(result);
+    result += `Amount owed is ${this.getTotalCharge()}\n`;
+    result += `You earned ${this.getTotalFrequentRenterPoints()} frequent renter points`;
     return result;
+  }
+
+  getTotalCharge() {
+    return this.rentals.reduce((acc, cur) => {
+      return acc + cur.getCharge();
+    }, 0)
+  }
+
+  getTotalFrequentRenterPoints() {
+    return this.rentals.reduce((acc, cur) => acc + cur.getFrequentRenterPoints(), 0)
   }
 }
 
