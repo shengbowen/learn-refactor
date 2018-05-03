@@ -1,12 +1,34 @@
+import { RegularPrice, NewReleasePrice, ChildrensPrice } from "./priceStrategy";
+
 class Movie {
   constructor(title, priceCode) {
     this.title = title;
-    this.priceCode = priceCode;
+    this.setPriceCode(priceCode);
+  }
+
+  setPriceCode(priceCode) {
+    switch(priceCode) {
+      case Movie.REGULAR:
+        this._priceStrategy = new RegularPrice();
+        break;
+      case Movie.NEW_RELEASE:
+        this._priceStrategy = new NewReleasePrice();
+        break;
+      case Movie.CHILDREDN:
+        this._priceStrategy = new ChildrensPrice();
+        break;
+      default:
+        throw new Error('incorrect price code!');
+    }
+  }
+
+  getPriceCode() {
+    return this._priceStrategy.getPriceCode();
   }
 
   getCharge(daysRented) {
     let thisAmount = 0;
-    switch(this.priceCode) {
+    switch(this.getPriceCode()) {
       case Movie.REGULAR:
         thisAmount += 2;
         if (daysRented > 2) thisAmount += (daysRented - 2) * 1.5;
@@ -23,7 +45,7 @@ class Movie {
   }
 
   getFrequentRenterPoints(daysRented) {
-    if (this.priceCode === Movie.NEW_RELEASE && daysRented > 1) return 2;
+    if (this.getPriceCode() === Movie.NEW_RELEASE && daysRented > 1) return 2;
     else return 1;
   }
 }
