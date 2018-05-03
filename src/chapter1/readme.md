@@ -32,3 +32,19 @@
 
 ### 添加功能
 经过前面的重构，你会发现Customer类的一些查询接口，可以方便的被复用，这样就可以省去自建循环代码。我们可以很容易的写一个扩展功能，htmlStatement。你可以很清楚的看见二者的区别[chapter1 1.3 add htmlStatement](https://github.com/shengbowen/learn-refactor/commit/46fb565a96ad5a73a03bfb7e9a4a3773969d15c7)
+
+## 1.4 运用多态取代与价格相关的条件逻辑
+
+### move getCharge and getFrequentPoints
+最好不要在另一个对象的属性基础之上运用switch语句，如果不得不使用，也应该在自己的数据上使用。这暗示要把getCharge移到Movie里去。为什么选择将租期传给Movie对象，而不是将影片类型传给Rental对象呢？因为本系统可能发生的变化时加入新影片类型，为了尽量控制它带来的影响，选择在Movie里计算费用。
+代码参见[move getCharge and getFrequentPoints](https://github.com/shengbowen/learn-refactor/commit/de99635ed59a07f777e4f41d7f9e25362c3db316)
+
+### 使用继承和策略模式
+也行你会想到运用多态，为每个电影类型创建一个子movie类，但是一部影片可以在生命周期内修改自己的分类，而一个对象却不能再生命周期内修改自己所属的类，所以不适合设计多个movie子类。不过可以将getCharge方法看做一个策略，新建不同的策略子类来应对不同的计算方法是可行。为了引入策略模式，首先我们[replace type code with state/strategy](https://github.com/shengbowen/learn-refactor/commit/ed1511dc323c4db02bf54557b717a54098306707)
+
+### 搬移 getCharge
+现在我们可以将Movie里的getCharge方法，搬移到priceStrategy里。[move getcharge](https://github.com/shengbowen/learn-refactor/commit/c125c7f7577ad4ab4128110a2f1a6cbd0bd8845c)
+
+### replace conditional with polymorphism
+搬移之后，就可以运用多态，将getCharge 里的 switch，搬移到子类的getCharge里。[replace conditional with polymorphism](https://github.com/shengbowen/learn-refactor/commit/bec81b0f5e7ab5c9a6467877986c83a754346b47)
+最后使用同样的方法，搬离getFrequentRenterPoints。

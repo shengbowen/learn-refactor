@@ -8,6 +8,10 @@ class Price {
   getCharge(daysRented) {
     throw new Error('getPriceCode must be rewrite');
   }
+
+  getFrequentRenterPoints(daysRented) {
+    return 1;
+  }
 }
 
 class ChildrensPrice extends Price {
@@ -29,6 +33,11 @@ class NewReleasePrice extends Price {
 
   getCharge(daysRented) {
     return daysRented * 3;
+  }
+
+  getFrequentRenterPoints(daysRented) {
+    if (this.getPriceCode() === Movie.NEW_RELEASE && daysRented > 1) return 2;
+    return 1;
   }
 }
 
